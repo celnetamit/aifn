@@ -2,6 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { getSession } from '@/lib/auth';
 import { redirect } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
+import { logout } from '@/server/actions/auth';
 
 // Force all dashboard pages to be dynamic (server-rendered at request time)
 // so they never try to connect to the DB during the Docker build stage.
@@ -38,8 +39,10 @@ export default async function DashboardLayout({
   if (!session) {
     redirect({ href: '/login', locale });
   }
+  const userSession = session!;
 
   const t = await getTranslations();
+  const logoutAction = logout.bind(null, locale);
 
   const navItems = [
     { label: t('dashboard.my_courses'), icon: BookOpen, href: '/dashboard/courses' },
@@ -91,13 +94,21 @@ export default async function DashboardLayout({
             <div className="flex items-center gap-3">
                 <div className="h-8 w-8 rounded-full bg-slate-200 border-2 border-white shadow-sm" />
                 <div className="flex flex-col">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Learner</span>
-                    <span className="text-xs font-bold text-slate-900">Anjali V.</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{userSession.role}</span>
+                    <span className="text-xs font-bold text-slate-900">{userSession.name}</span>
                 </div>
             </div>
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-destructive">
-                <LogOut className="h-4 w-4" />
-            </Button>
+            <form action={logoutAction}>
+              <Button
+                type="submit"
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-slate-400 hover:text-destructive"
+                aria-label="Log out"
+              >
+                  <LogOut className="h-4 w-4" />
+              </Button>
+            </form>
           </div>
         </div>
       </aside>
