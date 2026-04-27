@@ -3,9 +3,13 @@
 export async function getGoogleAuthUrl(locale: string) {
   const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
   const safeLocale = locale === 'hi' ? 'hi' : 'en';
+  const appOrigin = (process.env.NEXT_PUBLIC_APP_URL || process.env.AUTH_URL || '').replace(/\/$/, '');
+  if (!appOrigin) {
+    throw new Error('Missing NEXT_PUBLIC_APP_URL or AUTH_URL for Google OAuth.');
+  }
   
   const options = {
-    redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/google`,
+    redirect_uri: `${appOrigin}/api/auth/callback/google`,
     client_id: process.env.GOOGLE_CLIENT_ID!,
     access_type: 'offline',
     response_type: 'code',

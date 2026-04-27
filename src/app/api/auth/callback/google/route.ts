@@ -5,13 +5,18 @@ import { hashPassword } from '@/lib/auth';
 import crypto from 'crypto';
 
 export async function GET(request: NextRequest) {
+  const appOrigin = (
+    process.env.NEXT_PUBLIC_APP_URL ||
+    process.env.AUTH_URL ||
+    request.nextUrl.origin
+  ).replace(/\/$/, '');
   const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get('code');
   const rawState = searchParams.get('state');
   const locale = rawState === 'hi' ? 'hi' : 'en';
 
   if (!code) {
-    return NextResponse.redirect(new URL(`/${locale}/login?error=no_code`, request.url));
+    return NextResponse.redirect(new URL(`/${locale}/login?error=no_code`, appOrigin));
   }
 
   try {
@@ -23,7 +28,7 @@ export async function GET(request: NextRequest) {
         code,
         client_id: process.env.GOOGLE_CLIENT_ID!,
         client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-        redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/google`,
+        redirect_uri: `${appOrigin}/api/auth/callback/google`,
         grant_type: 'authorization_code',
       }),
     });
@@ -32,7 +37,7 @@ export async function GET(request: NextRequest) {
 
     if (tokens.error) {
       console.error('Google token exchange error:', tokens);
-      return NextResponse.redirect(new URL(`/${locale}/login?error=token_exchange_failed`, request.url));
+      return NextResponse.redirect(new URL(`/${locale}/login?error=token_exchange_failed`, appOrigin));
     }
 
     // 2. Get user info
@@ -43,7 +48,7 @@ export async function GET(request: NextRequest) {
     const googleUser = await userResponse.json();
 
     if (!googleUser.email) {
-      return NextResponse.redirect(new URL(`/${locale}/login?error=no_email`, request.url));
+      return NextResponse.redirect(new URL(`/${locale}/login?error=no_email`, appOrigin));
     }
 
     // 3. Find or create user
@@ -85,7 +90,7 @@ export async function GET(request: NextRequest) {
 
     // We can't use setSessionCookie directly here because it's for Server Actions/Components
     // We'll set the cookie manually in the response
-    const response = NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
+    const response = NextResponse.redirect(new URL(`/${locale}/dashboard`, appOrigin));
     
     response.cookies.set('aifn_session', sessionToken, {
       httpOnly: true,
@@ -99,6 +104,6 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Google Auth Callback Error:', error);
-    return NextResponse.redirect(new URL(`/${locale}/login?error=server_error`, request.url));
+    return NextResponse.redirect(new URL(`/${locale}/login?error=server_error`, appOrigin));
   }
 }
