@@ -58,3 +58,4 @@ See `.env.example` for all required variables.
 ## Safety Notice
 
 This platform is for educational use only. It does not replace professional medical judgment. All AI outputs include safety disclaimers. Patient-identifiable data must never be uploaded.
+# aifn
