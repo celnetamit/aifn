@@ -86,9 +86,26 @@ export async function verifyPayment({
   }
 
   try {
+    const paymentRecord = await prisma.payment.findFirst({
+      where: {
+        razorpayOrderId: razorpay_order_id,
+        subscription: {
+          userId: session.id,
+        },
+      },
+      select: {
+        id: true,
+        subscriptionId: true,
+      },
+    });
+
+    if (!paymentRecord) {
+      return { success: false, error: 'Payment record not found' };
+    }
+
     // 1. Update Payment Record
     const payment = await prisma.payment.update({
-        where: { id: (await prisma.payment.findFirst({ where: { razorpayOrderId: razorpay_order_id } }))?.id || '' },
+        where: { id: paymentRecord.id },
         data: {
             status: 'paid',
             razorpayPaymentId: razorpay_payment_id,
@@ -106,7 +123,8 @@ export async function verifyPayment({
         }
     });
 
-    revalidatePath('/dashboard');
+    revalidatePath('/en/dashboard');
+    revalidatePath('/hi/dashboard');
     return { success: true };
 
   } catch (error) {

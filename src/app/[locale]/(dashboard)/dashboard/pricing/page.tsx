@@ -1,7 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { prisma } from '@/lib/db';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { 
   Check, 
   Zap, 
@@ -134,4 +133,3 @@ export default async function PricingPage({
     </div>
   );
 }
-

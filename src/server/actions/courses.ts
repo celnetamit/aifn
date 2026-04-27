@@ -3,7 +3,6 @@
 import { prisma } from '@/lib/db';
 import { requireSession, getSession } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
-import { redirect } from '@/i18n/navigation';
 
 export async function getCourses() {
   // Public access allowed for catalog
@@ -101,6 +100,11 @@ export async function enrollInCourse(courseId: string) {
       return { success: true };
     }
 
+    const course = await prisma.course.findUnique({
+      where: { id: courseId },
+      select: { slug: true },
+    });
+
     await prisma.enrollment.create({
       data: {
         userId: session.id,
@@ -108,8 +112,12 @@ export async function enrollInCourse(courseId: string) {
       },
     });
 
-    revalidatePath('/courses');
-    revalidatePath(`/courses/${courseId}`);
+    revalidatePath('/en/courses');
+    revalidatePath('/hi/courses');
+    if (course?.slug) {
+      revalidatePath(`/en/courses/${course.slug}`);
+      revalidatePath(`/hi/courses/${course.slug}`);
+    }
     
     return { success: true };
   } catch (error) {
@@ -181,7 +189,8 @@ export async function completeLesson(lessonId: string) {
     const lessons = currentLesson.module.lessons;
     const currentIndex = lessons.findIndex((l: any) => l.id === lessonId);
     
-    revalidatePath(`/dashboard/courses/${courseSlug}`);
+    revalidatePath(`/en/dashboard/courses/${courseSlug}`);
+    revalidatePath(`/hi/dashboard/courses/${courseSlug}`);
 
     if (currentIndex < lessons.length - 1) {
       const nextLesson = lessons[currentIndex + 1];

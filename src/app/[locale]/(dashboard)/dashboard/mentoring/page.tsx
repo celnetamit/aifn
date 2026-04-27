@@ -3,16 +3,12 @@ import { getMentors } from '@/server/actions/mentors';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
-  Users, 
-  Video, 
   Calendar, 
   Star, 
   ShieldCheck, 
-  MessageSquare,
   Search,
   ArrowRight
 } from 'lucide-react';
-import Link from 'next/link';
 
 export default async function MentoringPage({ 
   params 

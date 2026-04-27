@@ -1,11 +1,10 @@
 import { setRequestLocale } from 'next-intl/server';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
   Award, 
   Download, 
   Share2, 
-  CheckCircle2,
   ShieldCheck,
   Search
 } from 'lucide-react';

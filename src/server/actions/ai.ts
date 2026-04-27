@@ -95,7 +95,8 @@ export async function chatWithAI({
         });
     }
 
-    revalidatePath('/dashboard');
+    revalidatePath('/en/dashboard');
+    revalidatePath('/hi/dashboard');
     
     return { 
         text: aiResponse.text, 

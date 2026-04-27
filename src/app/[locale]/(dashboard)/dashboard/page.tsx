@@ -1,9 +1,9 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { BookOpen, Award, Zap, Clock, ArrowRight, PlayCircle, GraduationCap } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/i18n/navigation';
 import { getSession } from '@/lib/auth';
 import { getEnrolledCourses } from '@/server/actions/courses';
 
@@ -13,9 +13,8 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
   setRequestLocale(locale);
   const t = await getTranslations();
   const session = await getSession();
-  if (!session) redirect('/login');
-  // @ts-ignore - session is checked above
-  const userSession = session;
+  if (!session) redirect({ href: '/login', locale });
+  const userSession = session!;
   const enrolledCourses = await getEnrolledCourses();
   
   // Calculate total stats

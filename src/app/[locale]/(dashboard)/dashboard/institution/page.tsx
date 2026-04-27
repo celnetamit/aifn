@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { prisma } from '@/lib/db';
 import { requireSession } from '@/lib/auth';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
   ShieldCheck, 
@@ -9,12 +9,10 @@ import {
   BarChart3, 
   UserPlus, 
   Download, 
-  Search,
   Activity,
   Lock,
   ArrowUpRight
 } from 'lucide-react';
-import Link from 'next/link';
 
 export default async function InstitutionAdminPage({ 
   params 

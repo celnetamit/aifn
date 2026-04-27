@@ -1,9 +1,8 @@
 'use server';
 
-import { redirect } from '@/i18n/navigation';
-
 export async function getGoogleAuthUrl(locale: string) {
   const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+  const safeLocale = locale === 'hi' ? 'hi' : 'en';
   
   const options = {
     redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/callback/google`,
@@ -15,7 +14,7 @@ export async function getGoogleAuthUrl(locale: string) {
       'https://www.googleapis.com/auth/userinfo.profile',
       'https://www.googleapis.com/auth/userinfo.email',
     ].join(' '),
-    state: locale, // Pass locale in state to preserve it after callback
+    state: safeLocale, // Pass locale in state to preserve it after callback
   };
 
   const qs = new URLSearchParams(options);

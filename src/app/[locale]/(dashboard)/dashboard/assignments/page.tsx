@@ -1,15 +1,13 @@
 import { setRequestLocale } from 'next-intl/server';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
-  Calendar, 
   Clock, 
   FileText, 
   CheckCircle2,
   AlertCircle,
   ArrowRight
 } from 'lucide-react';
-import Link from 'next/link';
 
 export default async function AssignmentsPage({ 
   params 

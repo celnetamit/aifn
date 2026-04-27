@@ -93,14 +93,15 @@ export async function submitAttempt(attemptId: string, answers: Record<string, s
     });
   }
 
-  revalidatePath('/dashboard');
+  revalidatePath('/en/dashboard');
+  revalidatePath('/hi/dashboard');
   return updatedAttempt;
 }
 
 export async function getAttemptResult(attemptId: string) {
   const session = await requireSession();
 
-  return await prisma.assessmentAttempt.findUnique({
+  const attempt = await prisma.assessmentAttempt.findUnique({
     where: { id: attemptId },
     include: {
       assessment: {
@@ -115,4 +116,10 @@ export async function getAttemptResult(attemptId: string) {
       }
     }
   });
+
+  if (!attempt || attempt.userId !== session.id) {
+    throw new Error('Unauthorized');
+  }
+
+  return attempt;
 }

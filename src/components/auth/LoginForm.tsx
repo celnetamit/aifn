@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from '@/i18n/navigation';
 import { login } from '@/server/actions/auth';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -17,7 +16,6 @@ interface LoginFormProps {
 
 export function LoginForm({ locale }: LoginFormProps) {
   const t = useTranslations();
-  const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
@@ -47,7 +45,7 @@ export function LoginForm({ locale }: LoginFormProps) {
         });
         // Redirection is handled in the server action
       }
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: t('common.error_generic'),

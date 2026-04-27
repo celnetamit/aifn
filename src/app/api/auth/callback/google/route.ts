@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { createSessionToken, setSessionCookie } from '@/lib/auth';
+import { createSessionToken } from '@/lib/auth';
 import { hashPassword } from '@/lib/auth';
 import crypto from 'crypto';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get('code');
-  const locale = searchParams.get('state') || 'en';
+  const rawState = searchParams.get('state');
+  const locale = rawState === 'hi' ? 'hi' : 'en';
 
   if (!code) {
     return NextResponse.redirect(new URL(`/${locale}/login?error=no_code`, request.url));

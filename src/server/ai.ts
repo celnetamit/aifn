@@ -15,6 +15,10 @@ export async function askAI({
   provider?: AIProvider;
 }) {
   const { systemMessage, developerInstruction } = getSystemPromptBundle(feature);
+  void history;
+  void provider;
+  void systemMessage;
+  void developerInstruction;
   
   // Simulate network delay
   await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -46,6 +50,10 @@ export async function streamAI({
   history?: Array<{ role: 'user' | 'assistant'; content: string }>;
   provider?: AIProvider;
 }) {
+  void feature;
+  void prompt;
+  void history;
+  void provider;
   // Mocking streaming is complex without the ai sdk, so we'll throw an error 
   // instructing the developer to implement it later or use askAI instead for now.
   throw new Error("Streaming is not supported in the mock implementation. Please use askAI.");

@@ -2,13 +2,13 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getCourses } from '@/server/actions/courses';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Users, Clock, Search, Filter, ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, Filter, Search } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function CoursesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations();
+  await getTranslations();
 
   const courses = await getCourses();
 
@@ -84,4 +84,3 @@ export default async function CoursesPage({ params }: { params: Promise<{ locale
     </div>
   );
 }
-

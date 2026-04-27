@@ -1,15 +1,11 @@
 import { setRequestLocale } from 'next-intl/server';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
   Zap, 
-  MessageSquare, 
   Sparkles, 
-  BarChart,
-  History,
-  ShieldCheck
+  History
 } from 'lucide-react';
-import Link from 'next/link';
 import { AIChat } from '@/components/AIChat';
 
 export default async function AIUsagePage({ 

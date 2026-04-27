@@ -21,12 +21,12 @@ export function EnrollButton({ courseId, isLoggedIn, isEnrolled, locale, variant
 
   const handleAction = async () => {
     if (!isLoggedIn) {
-      router.push('/login');
+      router.push(`/${locale}/login`);
       return;
     }
 
     if (isEnrolled) {
-      router.push('/dashboard'); // Or to the first lesson
+      router.push(`/${locale}/dashboard`); // Or to the first lesson
       return;
     }
 
@@ -38,7 +38,7 @@ export function EnrollButton({ courseId, isLoggedIn, isEnrolled, locale, variant
           title: 'Successfully Enrolled!',
           description: 'You can now start learning.',
         });
-        router.push('/dashboard');
+        router.push(`/${locale}/dashboard`);
       } else {
         toast({
           title: 'Enrollment Failed',
@@ -46,7 +46,7 @@ export function EnrollButton({ courseId, isLoggedIn, isEnrolled, locale, variant
           variant: 'destructive',
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Something went wrong. Please try again.',

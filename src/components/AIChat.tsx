@@ -5,15 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { 
   Send, 
-  MessageSquare, 
   Sparkles, 
   User, 
   Bot, 
   ShieldCheck, 
   Trash2,
   AlertCircle,
-  Zap,
-  Loader2
+  Zap
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { chatWithAI } from '@/server/actions/ai';
@@ -63,7 +61,7 @@ export function AIChat({ feature }: { feature: AIFeatureKey }) {
             content: response.text as string 
         }]);
       }
-    } catch (error) {
+    } catch {
       setMessages(prev => [...prev, { 
           role: 'assistant', 
           content: "Sorry, I encountered an error connecting to the server.", 

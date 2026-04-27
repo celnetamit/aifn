@@ -8,15 +8,10 @@ import { AIChat } from '@/components/AIChat';
 import { 
   ArrowLeft, 
   ArrowRight, 
-  CheckCircle2, 
-  MessageSquare, 
-  PlayCircle,
   FileText,
-  ChevronLeft,
-  GraduationCap
+  ChevronLeft
 } from 'lucide-react';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
 
 export default async function LessonPlayerPage({ 
   params 
@@ -35,8 +30,6 @@ export default async function LessonPlayerPage({
   const progress = await getCourseProgress(lesson.module.courseId);
   const currentLessonProgress = await getLessonProgress(lesson.id);
   const isCompleted = !!currentLessonProgress?.isCompleted;
-
-  const course = lesson.module.course;
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 min-h-[calc(100vh-120px)] animate-fade-in">

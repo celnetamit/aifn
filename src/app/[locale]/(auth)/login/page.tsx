@@ -1,8 +1,5 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { GraduationCap, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { LoginForm } from '@/components/auth/LoginForm';

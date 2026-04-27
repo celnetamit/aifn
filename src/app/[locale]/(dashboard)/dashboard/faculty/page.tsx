@@ -1,16 +1,13 @@
 import { setRequestLocale } from 'next-intl/server';
 import { getFacultyStats, getPendingSubmissions } from '@/server/actions/faculty';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
   Users, 
   FileText, 
   GraduationCap, 
   TrendingUp, 
-  Clock, 
-  ArrowRight,
-  CheckCircle2,
-  AlertCircle
+  ArrowRight
 } from 'lucide-react';
 import Link from 'next/link';
 

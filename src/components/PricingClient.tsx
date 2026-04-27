@@ -49,7 +49,7 @@ export function PricingClient({ pkgId, locale }: PricingClientProps) {
 
           if (result.success) {
             toast({ title: 'Success!', description: 'Subscription activated successfully.' });
-            router.push('/dashboard');
+            router.push(`/${locale}/dashboard`);
           } else {
             toast({ title: 'Payment Failed', description: result.error, variant: 'destructive' });
           }

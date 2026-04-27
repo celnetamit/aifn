@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { getCourseBySlug, checkEnrollment } from '@/server/actions/courses';
 import { Metadata } from 'next';
 import { getSession } from '@/lib/auth';
@@ -26,14 +26,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
   };
 }
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
-  PlayCircle, 
   Clock, 
   BookOpen, 
   ArrowLeft, 
-  ChevronRight,
   FileText,
   Lock,
   Award,
@@ -41,7 +39,6 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
-import { cn } from '@/lib/utils';
 
 export default async function PublicCourseDetailPage({ 
   params 
@@ -56,9 +53,6 @@ export default async function PublicCourseDetailPage({
   if (!course) {
     notFound();
   }
-
-
-  const t = await getTranslations();
   const session = await getSession();
   const isEnrolled = await checkEnrollment(course.id);
   
@@ -171,7 +165,7 @@ export default async function PublicCourseDetailPage({
                             </div>
                             
                             <div className="ml-5 pl-10 border-l-2 border-slate-200/60 space-y-5">
-                                {module.lessons.map((lesson: any, lIdx: number) => (
+                                {module.lessons.map((lesson: any) => (
                                     <div 
                                         key={lesson.id} 
                                         className="bg-white border border-slate-100 p-6 rounded-3xl shadow-sm hover:shadow-xl hover:border-primary/10 transition-all flex items-center justify-between group cursor-default"

@@ -3,9 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { 
   User, 
-  Bell, 
-  Lock, 
-  Globe,
   Save
 } from 'lucide-react';
 import { getSession } from '@/lib/auth';

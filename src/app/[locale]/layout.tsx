@@ -6,7 +6,6 @@ import { notFound } from 'next/navigation';
 import '../globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Metadata, Viewport } from 'next';
-import { getTranslations } from 'next-intl/server';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,7 +25,7 @@ export function generateStaticParams() {
 
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-  const { locale } = await params;
+  await params;
   
   return {
     title: {

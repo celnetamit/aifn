@@ -1,11 +1,10 @@
 import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 import { getCourseBySlug, getCourseProgress, getLessonProgress } from '@/server/actions/courses';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { getSession } from '@/lib/auth';
-import { Link } from '@/i18n/navigation';
-import { redirect } from 'next/navigation';
+import { Link, redirect } from '@/i18n/navigation';
 import { 
   PlayCircle, 
   CheckCircle2, 
@@ -14,12 +13,9 @@ import {
   ArrowLeft, 
   ChevronRight,
   FileText,
-  Video,
-  Lock,
   Users,
   Award
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 export default async function CourseDetailPage({ 
   params 
@@ -33,7 +29,7 @@ export default async function CourseDetailPage({
   if (!course) notFound();
 
   const session = await getSession();
-  if (!session) redirect('/login');
+  if (!session) redirect({ href: '/login', locale });
 
   const progress = await getCourseProgress(course.id);
   
@@ -141,7 +137,7 @@ export default async function CourseDetailPage({
                         </div>
                         
                         <div className="ml-4 pl-8 border-l-2 border-slate-100 space-y-4">
-                            {module.lessons.map((lesson: any, lIdx: number) => (
+                            {module.lessons.map((lesson: any) => (
                                 <Link 
                                     key={lesson.id} 
                                     href={`/${locale}/dashboard/courses/${slug}/${module.slug}/${lesson.slug}`}

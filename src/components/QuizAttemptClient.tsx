@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { 
   Clock, 
   ChevronLeft, 
@@ -33,15 +32,6 @@ export function QuizAttemptClient({ locale, assessment, attemptId }: QuizAttempt
   const progress = ((currentQuestionIndex + 1) / assessment.questions.length) * 100;
 
   // Timer logic
-  useEffect(() => {
-    if (timeLeft <= 0) {
-      handleSubmit();
-      return;
-    }
-    const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
-    return () => clearInterval(timer);
-  }, [timeLeft]);
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -59,7 +49,7 @@ export function QuizAttemptClient({ locale, assessment, attemptId }: QuizAttempt
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     setIsSubmitting(true);
     try {
       const result = await submitAttempt(attemptId, answers);
@@ -68,7 +58,16 @@ export function QuizAttemptClient({ locale, assessment, attemptId }: QuizAttempt
       console.error('Submission error:', error);
       setIsSubmitting(false);
     }
-  };
+  }, [answers, assessment.id, attemptId, router]);
+
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      handleSubmit();
+      return;
+    }
+    const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+    return () => clearInterval(timer);
+  }, [handleSubmit, timeLeft]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-fade-in pb-20">

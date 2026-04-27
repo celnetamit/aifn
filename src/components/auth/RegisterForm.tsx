@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useRouter } from '@/i18n/navigation';
 import { register } from '@/server/actions/auth';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -16,7 +15,6 @@ interface RegisterFormProps {
 
 export function RegisterForm({ locale }: RegisterFormProps) {
   const t = useTranslations();
-  const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
@@ -59,7 +57,7 @@ export function RegisterForm({ locale }: RegisterFormProps) {
         });
         // Redirection is handled in the server action
       }
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: t('common.error_generic'),

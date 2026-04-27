@@ -1,4 +1,4 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { prisma } from '@/lib/db';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -31,8 +31,6 @@ export default async function PublicPricingPage({
     where: { isActive: true },
     orderBy: { priceInr: 'asc' }
   });
-
-  const t = await getTranslations();
 
   return (
     <div className="flex flex-col min-h-screen">
