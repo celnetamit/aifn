@@ -59,7 +59,7 @@ export async function login(locale: string, data: LoginInput) {
   }
 
   revalidatePath('/');
-  redirect('/dashboard');
+  redirect({ href: '/dashboard', locale: locale });
 }
 
 export async function register(locale: string, data: RegisterInput) {
@@ -123,11 +123,11 @@ export async function register(locale: string, data: RegisterInput) {
   }
 
   revalidatePath('/');
-  redirect('/dashboard');
+  redirect({ href: '/dashboard', locale: locale });
 }
 
-export async function logout() {
+export async function logout(locale: string = 'en') {
   await clearSessionCookie();
   revalidatePath('/');
-  redirect('/login');
+  redirect({ href: '/login', locale: locale });
 }
