@@ -2,7 +2,7 @@
 
 import { prisma } from '@/lib/db';
 import { requireSession } from '@/lib/auth';
-import { razorpay, RAZORPAY_CURRENCY } from '@/lib/payments/razorpay';
+import { getRazorpay, RAZORPAY_CURRENCY } from '@/lib/payments/razorpay';
 import crypto from 'crypto';
 import { revalidatePath } from 'next/cache';
 
@@ -18,7 +18,7 @@ export async function createSubscriptionOrder(packageId: string) {
   const amountInPaise = Math.round(pkg.priceInr * 100);
 
   try {
-    const order = await razorpay.orders.create({
+    const order = await getRazorpay().orders.create({
       amount: amountInPaise,
       currency: RAZORPAY_CURRENCY,
       receipt: `receipt_${session.id}_${Date.now()}`,

@@ -21,10 +21,11 @@ export async function getFacultyStats() {
 
   const pendingReviews = await prisma.assignmentSubmission.count({
     where: { 
-        assignment: { lesson: { module: { course: { institutionId } } } },
+        user: { institutionId },
         grade: null 
     }
   });
+
 
   const completedAssessments = await prisma.assessmentAttempt.count({
     where: { user: { institutionId }, submittedAt: { not: null } }
