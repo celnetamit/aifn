@@ -1,0 +1,118 @@
+{
+  "nav": {
+    "home": "Home",
+    "courses": "Courses",
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "admin": "Admin",
+    "about": "About",
+    "pricing": "Pricing",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "Trusted by Indian Nursing Educators",
+    "title": "AI Skills for Indian Nurses",
+    "subtitle": "Master AI literacy, safe practice, and research skills tailored for Indian nursing education and clinical settings.",
+    "cta_primary": "Start Learning Free",
+    "cta_secondary": "View Courses",
+    "stats_learners": "Learners",
+    "stats_courses": "Courses",
+    "stats_institutions": "Institutions"
+  },
+  "safety": {
+    "notice": "Educational use only. AI does not replace clinical judgment, faculty guidance, or institutional policy.",
+    "phi_warning": "⚠️ Do not upload identifiable patient information. Use anonymized educational cases only.",
+    "ai_disclaimer": "AI responses are for educational support. Always verify with qualified faculty, clinical supervisors, and standard textbooks before applying in practice."
+  },
+  "courses": {
+    "title": "Our Courses",
+    "subtitle": "Structured, bilingual, evidence-based AI education for every stage of your nursing career.",
+    "enroll": "Enroll Now",
+    "enrolled": "Continue Learning",
+    "view_all": "View All Courses",
+    "hours": "hours",
+    "modules": "modules",
+    "free": "Free",
+    "certificate": "Certificate"
+  },
+  "auth": {
+    "login_title": "Sign in to your account",
+    "register_title": "Create your account",
+    "email": "Email address",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "full_name": "Full name",
+    "role": "I am a",
+    "forgot_password": "Forgot password?",
+    "login_btn": "Sign in",
+    "register_btn": "Create Account",
+    "no_account": "Don't have an account?",
+    "has_account": "Already have an account?",
+    "google_login": "Continue with Google",
+    "or": "or"
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {name}",
+    "continue_learning": "Continue Learning",
+    "my_courses": "My Courses",
+    "progress": "Progress",
+    "certificates": "Certificates",
+    "ai_usage": "AI Usage",
+    "notifications": "Notifications",
+    "assignments": "Assignments",
+    "mentor_sessions": "Mentor Sessions"
+  },
+  "ai": {
+    "tutor_title": "AI Tutor",
+    "tutor_placeholder": "Ask a question about nursing, AI literacy, study support...",
+    "safety_reminder": "Do not share patient names, IDs, or identifiable information.",
+    "tokens_remaining": "Tokens remaining today",
+    "generating": "Generating response...",
+    "verify_note": "Please verify educational content with your faculty or supervisor."
+  },
+  "packages": {
+    "basic": "Basic Awareness",
+    "professional": "Professional Skills",
+    "advanced": "Advanced Academic & Research",
+    "institutional": "Institutional / Faculty Plus",
+    "mentor_addon": "Premium Mentor Add-on",
+    "free": "Free",
+    "per_month": "per access period",
+    "get_started": "Get Started",
+    "contact_us": "Contact Us"
+  },
+  "errors": {
+    "not_found": "Page not found",
+    "unauthorized": "You don't have permission to access this page.",
+    "server_error": "Something went wrong. Please try again.",
+    "session_expired": "Your session has expired. Please sign in again."
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "complete": "Complete",
+    "draft": "Draft",
+    "published": "Published",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "metadata": {
+    "title": "AI for Nurses India",
+    "description": "Bilingual AI literacy and professional skills for Indian nurses.",
+    "home": "Home | AI for Nurses India",
+    "courses": "Courses | AI for Nurses India",
+    "pricing": "Pricing Plans | AI for Nurses India"
+  }
+}
