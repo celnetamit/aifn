@@ -16,6 +16,8 @@ import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { getSession } from '@/lib/auth';
 
+export const dynamic = 'force-dynamic';
+
 export default async function PublicPricingPage({ 
   params 
 }: { 

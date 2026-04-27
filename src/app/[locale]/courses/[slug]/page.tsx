@@ -5,6 +5,8 @@ import { Metadata } from 'next';
 import { getSession } from '@/lib/auth';
 import { EnrollButton } from '@/components/courses/EnrollButton';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }): Promise<Metadata> {
   const { locale, slug } = await params;
   const course = await getCourseBySlug(slug);

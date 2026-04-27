@@ -2,6 +2,10 @@ import { getTranslations } from 'next-intl/server';
 import { getSession } from '@/lib/auth';
 import { redirect } from '@/i18n/navigation';
 import { Link } from '@/i18n/navigation';
+
+// Force all dashboard pages to be dynamic (server-rendered at request time)
+// so they never try to connect to the DB during the Docker build stage.
+export const dynamic = 'force-dynamic';
 import { 
   LayoutDashboard, 
   BookOpen, 
