@@ -123,6 +123,7 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
     'certificate:view',
     'audit:view',
     'token:view',
+    'token:manage',
   ],
 
   finance_admin: [
