@@ -22,7 +22,9 @@ import {
   Bell,
   ChevronRight,
   FileText,
-  Zap
+  Zap,
+  CreditCard,
+  Link2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -58,8 +60,12 @@ export default async function DashboardLayout({
   } else if (userSession.role === 'institution_admin' || userSession.role === 'admin' || userSession.role === 'super_admin') {
     navItems = [
       { label: 'Admin Dashboard', icon: LayoutDashboard, href: '/dashboard/institution' },
+      { label: 'Course Admin', icon: BookOpen, href: '/dashboard/institution/courses' },
       { label: 'Users & Roles', icon: Users, href: '/dashboard/institution/users' },
+      { label: 'Course Mapping', icon: Link2, href: '/dashboard/institution/enrollments' },
       { label: 'Token Budgets', icon: Zap, href: '/dashboard/institution/tokens' },
+      { label: 'Billing & Invoices', icon: CreditCard, href: '/dashboard/institution/billing' },
+      { label: 'Certificates', icon: Award, href: '/dashboard/institution/certificates' },
       { label: 'Audit Logs', icon: FileText, href: '/dashboard/institution/audit' },
     ];
   } else {

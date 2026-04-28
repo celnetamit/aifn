@@ -114,6 +114,8 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
 
   institution_admin: [
     'course:read',
+    'course:write',
+    'course:publish',
     'user:view',
     'user:manage',
     'institution:manage',
@@ -121,6 +123,8 @@ export const ROLE_PERMISSIONS: Record<Role, Permission[]> = {
     'cohort:manage',
     'payment:view',
     'certificate:view',
+    'certificate:issue',
+    'certificate:revoke',
     'audit:view',
     'token:view',
     'token:manage',
