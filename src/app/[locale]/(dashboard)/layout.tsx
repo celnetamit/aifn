@@ -20,7 +20,9 @@ import {
   Users,
   Search,
   Bell,
-  ChevronRight
+  ChevronRight,
+  FileText,
+  Zap
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -44,14 +46,33 @@ export default async function DashboardLayout({
   const t = await getTranslations();
   const logoutAction = logout.bind(null, locale);
 
-  const navItems = [
-    { label: t('dashboard.my_courses'), icon: BookOpen, href: '/dashboard/courses' },
-    { label: t('dashboard.ai_usage'), icon: MessageSquare, href: '/dashboard/ai' },
-    { label: t('dashboard.progress'), icon: LayoutDashboard, href: '/dashboard' },
-    { label: t('dashboard.certificates'), icon: Award, href: '/dashboard/certificates' },
-    { label: t('dashboard.assignments'), icon: Calendar, href: '/dashboard/assignments' },
-    { label: t('dashboard.mentor_sessions'), icon: Users, href: '/dashboard/mentoring' },
-  ];
+  let navItems = [];
+  
+  if (userSession.role === 'faculty') {
+    navItems = [
+      { label: 'Command Center', icon: LayoutDashboard, href: '/dashboard/faculty' },
+      { label: 'Reviews', icon: FileText, href: '/dashboard/faculty/reviews' },
+      { label: 'Cohorts', icon: Users, href: '/dashboard/faculty/cohorts' },
+      { label: t('dashboard.ai_usage'), icon: MessageSquare, href: '/dashboard/ai' },
+    ];
+  } else if (userSession.role === 'institution_admin' || userSession.role === 'admin' || userSession.role === 'super_admin') {
+    navItems = [
+      { label: 'Admin Dashboard', icon: LayoutDashboard, href: '/dashboard/institution' },
+      { label: 'Users & Roles', icon: Users, href: '/dashboard/institution/users' },
+      { label: 'Token Budgets', icon: Zap, href: '/dashboard/institution/tokens' },
+      { label: 'Audit Logs', icon: FileText, href: '/dashboard/institution/audit' },
+    ];
+  } else {
+    // Default Learner/Nurse views
+    navItems = [
+      { label: t('dashboard.my_courses'), icon: BookOpen, href: '/dashboard/courses' },
+      { label: t('dashboard.ai_usage'), icon: MessageSquare, href: '/dashboard/ai' },
+      { label: t('dashboard.progress'), icon: LayoutDashboard, href: '/dashboard' },
+      { label: t('dashboard.certificates'), icon: Award, href: '/dashboard/certificates' },
+      { label: t('dashboard.assignments'), icon: Calendar, href: '/dashboard/assignments' },
+      { label: t('dashboard.mentor_sessions'), icon: Users, href: '/dashboard/mentoring' },
+    ];
+  }
 
   return (
     <div className="flex min-h-screen bg-slate-50/50">

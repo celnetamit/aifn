@@ -15,6 +15,14 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
   const session = await getSession();
   if (!session) redirect({ href: '/login', locale });
   const userSession = session!;
+
+  // Redirect non-learner roles to their specific dashboards
+  if (userSession.role === 'faculty') {
+    redirect({ href: '/dashboard/faculty', locale });
+  } else if (userSession.role === 'institution_admin' || userSession.role === 'admin' || userSession.role === 'super_admin') {
+    redirect({ href: '/dashboard/institution', locale });
+  }
+
   const enrolledCourses = await getEnrolledCourses();
   
   // Calculate total stats
