@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/db';
-import { ProfileSettingsForm } from '@/components/settings/ProfileSettingsForm';
+import { SettingsWorkspace } from '@/components/settings/SettingsWorkspace';
 
 export default async function SettingsPage({ 
   params 
@@ -28,6 +28,13 @@ export default async function SettingsPage({
     return <div className="p-12 text-center font-bold text-slate-500">User not found.</div>;
   }
 
+  const unreadNotificationCount = await prisma.notification.count({
+    where: {
+      userId: session.id,
+      isRead: false,
+    },
+  });
+
   return (
     <div className="space-y-8 animate-fade-in max-w-4xl mx-auto">
       <div>
@@ -35,30 +42,15 @@ export default async function SettingsPage({
         <p className="text-slate-500 font-medium">Manage your profile, preferences, and security settings.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="space-y-2">
-            <button className="w-full text-left px-4 py-2.5 rounded-xl bg-primary/10 text-primary font-black text-sm">
-                Profile
-            </button>
-            <button className="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-100 text-slate-600 font-bold text-sm transition-colors">
-                Notifications
-            </button>
-            <button className="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-100 text-slate-600 font-bold text-sm transition-colors">
-                Security
-            </button>
-            <button className="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-100 text-slate-600 font-bold text-sm transition-colors">
-                Preferences
-            </button>
-        </div>
-
-        <ProfileSettingsForm
-          locale={locale}
-          initialName={user.name}
-          initialEmail={user.email}
-          initialRoleTitle={user.profile?.learnerType ?? session.role}
-          initialInstitutionName={user.institution?.name ?? user.profile?.college ?? ''}
-        />
-      </div>
+      <SettingsWorkspace
+        locale={locale}
+        initialName={user.name}
+        initialEmail={user.email}
+        initialRoleTitle={user.profile?.learnerType ?? session.role}
+        initialInstitutionName={user.institution?.name ?? user.profile?.college ?? ''}
+        initialPreferredLocale={user.preferredLocale}
+        unreadNotificationCount={unreadNotificationCount}
+      />
     </div>
   );
 }

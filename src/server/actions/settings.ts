@@ -1,7 +1,13 @@
 'use server';
 
 import { prisma } from '@/lib/db';
-import { requireSession, createSessionToken, setSessionCookie } from '@/lib/auth';
+import {
+  requireSession,
+  createSessionToken,
+  setSessionCookie,
+  hashPassword,
+  verifyPassword,
+} from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 
 type UpdateSettingsInput = {
@@ -87,3 +93,110 @@ export async function updateSettings(
   return { success: true, message: 'Settings saved successfully.' };
 }
 
+export async function markAllNotificationsRead(locale: string): Promise<UpdateSettingsResult> {
+  const session = await requireSession();
+
+  await prisma.notification.updateMany({
+    where: { userId: session.id, isRead: false },
+    data: { isRead: true },
+  });
+
+  await prisma.securityAuditLog.create({
+    data: {
+      eventType: 'notifications_marked_read',
+      userId: session.id,
+    },
+  });
+
+  revalidatePath(`/${locale}/dashboard`);
+  revalidatePath(`/${locale}/dashboard/settings`);
+
+  return { success: true, message: 'All notifications marked as read.' };
+}
+
+export async function updatePreferredLocaleSetting(
+  locale: string,
+  preferredLocale: 'en' | 'hi'
+): Promise<UpdateSettingsResult> {
+  const session = await requireSession();
+
+  await prisma.user.update({
+    where: { id: session.id },
+    data: { preferredLocale },
+  });
+
+  const token = createSessionToken({
+    id: session.id,
+    email: session.email,
+    name: session.name,
+    role: session.role,
+    institutionId: session.institutionId,
+    preferredLocale,
+  });
+  await setSessionCookie(token);
+
+  await prisma.securityAuditLog.create({
+    data: {
+      eventType: 'preferred_locale_updated',
+      userId: session.id,
+      details: { preferredLocale },
+    },
+  });
+
+  revalidatePath(`/${locale}/dashboard`);
+  revalidatePath(`/${locale}/dashboard/settings`);
+
+  return { success: true, message: 'Language preference updated.' };
+}
+
+export async function changePassword(
+  locale: string,
+  payload: {
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+  }
+): Promise<UpdateSettingsResult> {
+  const session = await requireSession();
+
+  if (!payload.currentPassword || !payload.newPassword || !payload.confirmPassword) {
+    return { error: 'All password fields are required.' };
+  }
+  if (payload.newPassword.length < 8) {
+    return { error: 'New password must be at least 8 characters.' };
+  }
+  if (payload.newPassword !== payload.confirmPassword) {
+    return { error: 'New password and confirmation do not match.' };
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.id },
+    select: { id: true, passwordHash: true },
+  });
+  if (!user) return { error: 'User not found.' };
+
+  if (!verifyPassword(payload.currentPassword, user.passwordHash)) {
+    await prisma.securityAuditLog.create({
+      data: {
+        eventType: 'password_change_failed',
+        userId: session.id,
+      },
+    });
+    return { error: 'Current password is incorrect.' };
+  }
+
+  await prisma.user.update({
+    where: { id: session.id },
+    data: { passwordHash: hashPassword(payload.newPassword) },
+  });
+
+  await prisma.securityAuditLog.create({
+    data: {
+      eventType: 'password_changed',
+      userId: session.id,
+    },
+  });
+
+  revalidatePath(`/${locale}/dashboard/settings`);
+  return { success: true, message: 'Password updated successfully.' };
+}
